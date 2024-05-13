@@ -1,5 +1,4 @@
 mod select_page;
-use std::time::Duration;
 
 use console::Term;
 use dialoguer::theme::ColorfulTheme;
@@ -7,7 +6,6 @@ use select_page::select_page;
 
 mod setup_browser;
 use setup_browser::setup_browser;
-use tokio::time::sleep;
 
 use crate::{prelude::DebuggerInfo, utils::stdout_utils::clear_stdout_up};
 
@@ -19,14 +17,12 @@ pub async fn setup_features() {
     let term = Term::stdout();
     let theme = &ColorfulTheme::default();
     let _ = setup_browser().await;
-    sleep(Duration::from_millis(500)).await;
 
     loop {
         clear_stdout_up();
         let selected_page: DebuggerInfo = select_page(&term, theme).await;
         let script_content = select_script::select_script().await;
-
-        execute_script::execute_script(&script_content, &selected_page).await;
+        execute_script::execute_script(&script_content, &selected_page, &theme, &term).await;
         break;
     }
 }
