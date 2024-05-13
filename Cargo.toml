@@ -18,3 +18,9 @@ console = "*"
 crossterm = "*"
 ctrlc = "*"
 sysinfo = "*"
+notify = "*"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = true
