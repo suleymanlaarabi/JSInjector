@@ -15,6 +15,8 @@ pub async fn select_script() -> PathBuf {
         let exist_file = script_path.is_file();
 
         clear_stdout_up();
+        clear_stdout_up();
+
         if exist_file {
             return script_path;
         }

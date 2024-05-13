@@ -46,7 +46,7 @@ pub async fn execute_script(
 
         let mut js_command = JsCommand::new();
         js_command.add_script(script);
-
+        println!("{:?}", js_command.to_string());
         let message = Message::Text(js_command.to_string());
 
         let _ = socket.send(message).await;
@@ -102,7 +102,7 @@ fn async_watcher() -> notify::Result<(RecommendedWatcher, Receiver<notify::Resul
             })
         },
         Config::default(),
-    )?;
+    ).unwrap();
 
     Ok((watcher, rx))
 }
