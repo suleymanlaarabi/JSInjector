@@ -46,8 +46,8 @@ pub async fn execute_script(
 
         let mut js_command = JsCommand::new();
         js_command.add_script(script);
-        println!("{:?}", js_command.to_string());
-        let message = Message::Text(js_command.to_string());
+        println!("{:?}", js_command.to_json_string());
+        let message = Message::Text(js_command.to_json_string());
 
         let _ = socket.send(message).await;
     }
@@ -63,12 +63,14 @@ pub async fn execute_script(
 
                 let mut last_exec = Instant::now();
                 execute(&script_path, &mut socket).await;
-                while let Some(_) = rx.next().await {
+                println!("Initial execution at {:?}", last_exec); // Log initial execution time
+
+                while let Some(event) = rx.next().await {
+                    println!("File change detected at {:?}", event); // Log the file change event
                     let now = Instant::now();
 
-                    if now.duration_since(last_exec) > Duration::from_secs(1)
-                        || now.duration_since(last_exec) < Duration::from_secs(0)
-                    {
+                    if now.duration_since(last_exec) > Duration::from_millis(10) {
+                        println!("Executing script at {:?}", now); // Log the execution time
                         execute(&script_path, &mut socket).await;
                         last_exec = now;
                     }
@@ -102,7 +104,8 @@ fn async_watcher() -> notify::Result<(RecommendedWatcher, Receiver<notify::Resul
             })
         },
         Config::default(),
-    ).unwrap();
+    )
+    .unwrap();
 
     Ok((watcher, rx))
 }
@@ -131,10 +134,11 @@ impl JsCommand {
     }
 
     fn add_script(&mut self, script: &str) {
-        self.params.expression = script.to_string();
+        // Échappement manuel pour la chaîne JavaScript
+        self.params.expression = format!("(function() {{ {} }})()", script);
     }
 
-    fn to_string(&self) -> String {
+    fn to_json_string(&self) -> String {
         serde_json::to_string(&self).unwrap()
     }
 }
