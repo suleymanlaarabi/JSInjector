@@ -1,5 +1,8 @@
+use std::time::Duration;
+
 use console::{style, Term};
 use dialoguer::{theme::ColorfulTheme, Select};
+use tokio::time::sleep;
 
 use crate::{
     prelude::{DebuggerCollection, DebuggerInfo},
@@ -8,7 +11,19 @@ use crate::{
 
 pub async fn select_page(term: &Term, theme: &ColorfulTheme) -> DebuggerInfo {
     loop {
-        let mut menu: DebuggerCollection = get_debugger_info().await;
+        let mut menu: DebuggerCollection = vec![];
+
+        loop {
+            sleep(Duration::from_millis(300)).await;
+            match get_debugger_info().await {
+                Ok(value) => {
+                    menu.extend(value);
+                    break;
+                }
+                Err(_) => continue,
+            }
+        }
+
         clear_stdout();
         menu.insert(
             0,
