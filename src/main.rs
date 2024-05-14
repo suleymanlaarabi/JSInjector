@@ -36,7 +36,7 @@ async fn run_js(file_path: &str) -> Result<(), AnyError> {
 async fn main() {
     let matches = Command::new("hello")
         .version("0.1.0")
-        .author("Christopher Berner")
+        .author("Suleyman Laarabi")
         .arg(
             Arg::new("SERVER_SCRIPT_PATH")
                 .index(1)
