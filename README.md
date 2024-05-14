@@ -9,6 +9,7 @@ JSInjector is a powerful tool written in Rust that allows you to inject JavaScri
 - **Page Selection**: Select the target page from a list of all open pages.
 - **Script Selection**: Choose the script to execute from a list of available scripts.
 - **Browser Setup**: Automatically starts a new instance of Google Chrome with remote debugging enabled.
+- **Server Scripting**: Serve scripts from a local server to have ability to use deno or node modules.
 
 ## Building
 
