@@ -35,7 +35,7 @@ async fn run_js(file_path: &str) -> Result<(), AnyError> {
 #[tokio::main]
 async fn main() {
     let matches = Command::new("hello")
-        .version("0.1.0")
+        .version("1.0")
         .author("Suleyman Laarabi")
         .arg(
             Arg::new("SERVER_SCRIPT_PATH")
