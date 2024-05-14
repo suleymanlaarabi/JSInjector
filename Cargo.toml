@@ -19,6 +19,9 @@ crossterm = "*"
 ctrlc = "*"
 sysinfo = "*"
 notify = "*"
+deno_core = "*"
+clap = "*"
+
 
 [profile.release]
 opt-level = 3

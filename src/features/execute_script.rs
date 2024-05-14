@@ -63,14 +63,14 @@ pub async fn execute_script(
 
                 let mut last_exec = Instant::now();
                 execute(&script_path, &mut socket).await;
-                println!("Initial execution at {:?}", last_exec); // Log initial execution time
+                println!("Initial execution at {:?}", last_exec);
 
                 while let Some(event) = rx.next().await {
-                    println!("File change detected at {:?}", event); // Log the file change event
+                    println!("File change detected at {:?}", event);
                     let now = Instant::now();
 
                     if now.duration_since(last_exec) > Duration::from_millis(10) {
-                        println!("Executing script at {:?}", now); // Log the execution time
+                        println!("Executing script at {:?}", now);
                         execute(&script_path, &mut socket).await;
                         last_exec = now;
                     }
@@ -134,7 +134,6 @@ impl JsCommand {
     }
 
     fn add_script(&mut self, script: &str) {
-        // Échappement manuel pour la chaîne JavaScript
         self.params.expression = format!("(function() {{ {} }})()", script);
     }
 

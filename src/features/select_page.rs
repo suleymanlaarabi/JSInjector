@@ -25,6 +25,7 @@ pub async fn select_page(term: &Term, theme: &ColorfulTheme) -> DebuggerInfo {
         }
 
         clear_stdout();
+
         menu.insert(
             0,
             DebuggerInfo::new(
